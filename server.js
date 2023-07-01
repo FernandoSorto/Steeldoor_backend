@@ -11,6 +11,8 @@ app.get("/", async (req, res, next) => {
 
 app.use("/companies", require("./routes/company.route"));
 app.use("/jobs", require("./routes/job.route"));
+app.use("/applicant", require("./routes/applicant.route"));
+app.use("/jobApplication", require("./routes/jobApplication.route"));
 
 app.use((req, res, next) => {
     next(createError.NotFound());
