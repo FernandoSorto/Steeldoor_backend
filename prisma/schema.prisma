@@ -17,14 +17,15 @@ model Company {
 }
 
 model Job {
-  id           Int            @id @default(autoincrement())
+  id           Int              @id @default(autoincrement())
   title        String
   location     String
   description  String
-  salaryRoof   Decimal        @db.Decimal(10, 2)
-  salaryBottom Decimal        @db.Decimal(10, 2)
-  company      Company        @relation(fields: [companyId], references: [id])
+  salaryRoof   Decimal          @db.Decimal(10, 2)
+  salaryBottom Decimal          @db.Decimal(10, 2)
+  company      Company          @relation(fields: [companyId], references: [id])
   companyId    Int
+  applications JobApplication[]
   SkillsOnJobs SkillsOnJobs[]
 }
 
@@ -47,6 +48,9 @@ model JobApplication {
   id          Int       @id @default(autoincrement())
   applicant   Applicant @relation(fields: [applicantId], references: [id])
   applicantId Int
+  Job         Job?      @relation(fields: [jobId], references: [id])
+  jobId       Int?
+  // TODO: cv file upload
 }
 
 model Applicant {
