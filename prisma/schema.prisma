@@ -30,14 +30,14 @@ model Job {
 
 model Skill {
   id           Int            @id @default(autoincrement())
-  name         String
+  name         String         @unique
   SkillsOnJobs SkillsOnJobs[]
 }
 
 model SkillsOnJobs {
-  job     Job   @relation(fields: [jobId], references: [id])
+  job     Job   @relation(fields: [jobId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   jobId   Int
-  skill   Skill @relation(fields: [skillId], references: [id])
+  skill   Skill @relation(fields: [skillId], references: [id], onUpdate: Cascade)
   skillId Int
 
   @@id([jobId, skillId])

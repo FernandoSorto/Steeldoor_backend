@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- DropForeignKey
+ALTER TABLE [dbo].[SkillsOnJobs] DROP CONSTRAINT [SkillsOnJobs_jobId_fkey];
+
+-- AddForeignKey
+ALTER TABLE [dbo].[SkillsOnJobs] ADD CONSTRAINT [SkillsOnJobs_jobId_fkey] FOREIGN KEY ([jobId]) REFERENCES [dbo].[Job]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
