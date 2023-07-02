@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-// route to get single job (MAYBE NOT USED)
+// route to get single job
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -21,7 +21,17 @@ router.get("/:id", async (req, res, next) => {
             where: {
                 id: Number(id),
             },
-            // include: {classname: true}
+            include: {
+                SkillsOnJobs: {
+                    select: {
+                        skill: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
         });
         res.json(job);
     } catch (error) {
