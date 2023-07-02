@@ -1,7 +1,8 @@
 const express = require("express");
+const cors = require("cors");
 const createError = require("http-errors");
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -26,8 +27,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log("Running server on localhost:3000...");
-});
+app.listen(5000);
 
 module.exports = app;
