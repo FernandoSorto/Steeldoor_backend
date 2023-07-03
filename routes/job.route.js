@@ -31,6 +31,11 @@ router.get("/:id", async (req, res, next) => {
                         },
                     },
                 },
+                applications: {
+                    select: {
+                        applicant: true,
+                    },
+                },
             },
         });
         res.json(job);
