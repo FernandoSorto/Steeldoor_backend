@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-// route to get single jobApplication (MAYBE NOT USED)
+// route to get single jobApplication
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
