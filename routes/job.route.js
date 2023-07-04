@@ -33,7 +33,9 @@ router.get("/:id", async (req, res, next) => {
                 },
                 applications: {
                     select: {
+                        id: true,
                         applicant: true,
+                        cvFile: true,
                     },
                 },
             },
