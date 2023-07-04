@@ -1,12 +1,11 @@
 const router = require("express").Router();
 const prisma = require("../prisma");
+const upload = require("../middleware/uploadMiddleware");
 
 // route to get all jobApplication
 router.get("/", async (req, res, next) => {
     try {
-        const jobApplication = await prisma.jobApplication.findMany({
-            //include: {classname}
-        });
+        const jobApplication = await prisma.jobApplication.findMany();
         res.json(jobApplication);
     } catch (error) {
         next(error);
@@ -21,7 +20,6 @@ router.get("/:id", async (req, res, next) => {
             where: {
                 id: Number(id),
             },
-            // include: {classname: true}
         });
         res.json(jobApplication);
     } catch (error) {
@@ -29,14 +27,28 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
-// route to create new jobApplication
-router.post("/", async (req, res, next) => {
+router.post("/", upload.single("cv"), async (req, res, next) => {
     try {
+        const { filename } = req.file;
+
+        console.log(filename);
         const jobApplication = await prisma.jobApplication.create({
-            data: req.body,
+            data: {
+                cvFile: filename,
+                applicant: {
+                    connect: { id: Number(req.body.applicantId) },
+                },
+                Job: {
+                    connect: { id: Number(req.body.jobId) },
+                },
+            },
         });
+
+        console.log(jobApplication);
+
         res.json(jobApplication);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });
@@ -49,7 +61,6 @@ router.delete("/:id", async (req, res, next) => {
             where: {
                 id: Number(id),
             },
-            // include: {classname: true}
         });
         res.json(deletedjobApplication);
     } catch (error) {
@@ -67,7 +78,6 @@ router.patch("/:id", async (req, res, next) => {
                 id: Number(id),
             },
             data: req.body,
-            //include:{ className: true }
         });
         res.json(jobApplication);
     } catch (error) {

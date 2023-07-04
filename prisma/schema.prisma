@@ -50,7 +50,7 @@ model JobApplication {
   applicantId Int
   Job         Job?      @relation(fields: [jobId], references: [id])
   jobId       Int?
-  // TODO: cv file upload
+  cvFile      String?
 }
 
 model Applicant {
